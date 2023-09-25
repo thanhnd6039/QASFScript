@@ -14,8 +14,9 @@ public class CommonPage extends KeywordWebUI {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
-    public void selectTab(String tab){
+    public void selectTab(String tab) throws Throwable{
         String tabXpath = String.format("//a[@href='/vtShopFloor/%s']", tab);
+        Thread.sleep(5000);
         WebElement tabElement = driver.findElement(By.xpath(tabXpath));
         clickToElement(tabElement);
     }

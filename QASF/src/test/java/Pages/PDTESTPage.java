@@ -13,8 +13,12 @@ import java.util.List;
 public class PDTESTPage extends CommonPage{
     private String woFilePath = "C:\\CucumberFramework\\TestData\\63023.xlsx";
     private WebDriver driver;
+    @FindBy(id = "serialNumberPassedText")
+    private WebElement txtSNPassed;
     @FindBy(id = "panelIDText")
     private WebElement txtPanelID;
+    @FindBy(id = "passSerialNumberLabel")
+    private WebElement txtPassedSNLabel;
     public PDTESTPage(WebDriver driver){
         super(driver);
         this.driver = driver;
@@ -24,11 +28,11 @@ public class PDTESTPage extends CommonPage{
         List<Object[]> dataOfWO = FileReaderManager.getInstance().getExcelReader().readDataFromExcel(woFilePath, 0, 1, 0);
         int countPanelID = 0;
         for (int rowIndex = 0; rowIndex < dataOfWO.size(); rowIndex++){
-            String botPanelID = dataOfWO.get(rowIndex)[1].toString().trim();
-            if (!botPanelID.isEmpty()){
+            String topPanelID = dataOfWO.get(rowIndex)[0].toString().trim();
+            if (!topPanelID.isEmpty()){
                 countPanelID++;
-                System.out.println(String.format("Bot: %s", botPanelID));
-                setTextToElement(txtPanelID, botPanelID);
+                System.out.println(String.format("Top: %s", topPanelID));
+                setTextToElement(txtPanelID, topPanelID);
                 pressKey("Tab");
                 Thread.sleep(2000);
                 int snIndex = 2;
@@ -42,6 +46,21 @@ public class PDTESTPage extends CommonPage{
                     Thread.sleep(2000);
                     snIndex++;
                 }
+            }
+        }
+    }
+    public void scanSNFromExcel() throws Throwable{
+        List<Object[]> dataOfWO = FileReaderManager.getInstance().getExcelReader().readDataFromExcel(woFilePath, 0, 1, 0);
+        for (int rowIndex = 0; rowIndex < dataOfWO.size(); rowIndex++){
+            String sn = dataOfWO.get(rowIndex)[2].toString().trim();
+            if (!sn.isEmpty()){
+                System.out.println(String.format("SN: %s", sn));
+                setTextToElement(txtSNPassed, sn);
+                pressKey("Tab");
+                Thread.sleep(5000);
+                waitForElementVisibility(txtPassedSNLabel);
+                String passSNLabel = getTextFromElement(txtPassedSNLabel);
+                Assert.assertTrue("The returned SN is different with inputted SN",passSNLabel.equalsIgnoreCase(sn));
             }
         }
     }

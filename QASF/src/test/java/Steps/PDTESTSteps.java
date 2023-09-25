@@ -15,5 +15,9 @@ public class PDTESTSteps {
     public void scanPanelIdAndSNFromExcel(int numOfBlocks) throws Throwable{
         pdtestPage.scanPanelIdAndSNFromExcel(numOfBlocks);
     }
+    @And("^I scan SerialNumber at Depanel from excel$")
+    public void scanSNFromExcel() throws Throwable{
+        pdtestPage.scanSNFromExcel();
+    }
 
 }
