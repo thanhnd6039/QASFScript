@@ -25,4 +25,9 @@ public class CommonPage extends KeywordWebUI {
         WebElement btnElement = driver.findElement(By.xpath(btnXpath));
         clickToElement(btnElement);
     }
+    public void scrollToElement(String tab){
+        String tabXpath = String.format("//a[@href='/vtShopFloor/%s']", tab);
+        WebElement tabElement = driver.findElement(By.xpath(tabXpath));
+        scrollToElement(tabElement);
+    }
 }

@@ -1,9 +1,6 @@
 package Helpers;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -146,6 +143,16 @@ public class KeywordWebUI {
         catch (Exception e){
             System.out.println(String.format("Error: %s", e.getMessage()));
             return false;
+        }
+    }
+    public void scrollToElement(WebElement element){
+        waitForElementIsEnabled(element);
+        try{
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].scrollIntoView(true);",element);
+        }
+        catch (Exception e){
+            System.out.println(String.format("Error: %s", e.getMessage()));
         }
     }
 

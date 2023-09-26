@@ -19,5 +19,9 @@ public class CommonSteps {
     public void clickToButton(String buttonLabel, String stage) throws Throwable{
         commonPage.clickToButton(buttonLabel, stage);
     }
+    @And("^I scroll to tab (.*)$")
+    public void scrollToElement(String tab) throws Throwable {
+        commonPage.scrollToElement(tab);
+    }
 
 }
