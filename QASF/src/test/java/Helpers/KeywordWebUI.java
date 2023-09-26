@@ -1,5 +1,6 @@
 package Helpers;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -125,6 +126,26 @@ public class KeywordWebUI {
             }
         }catch (Exception e){
             System.out.println(String.format("Error: %s", e.getMessage()));
+        }
+    }
+    public boolean waitForPageLoadComplete(){
+        try{
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver){
+                    JavascriptExecutor js = (JavascriptExecutor) driver;
+                    Object result = js.executeScript("return document.readyState");
+                    if (result.toString().equalsIgnoreCase("complete")){
+                        return true;
+                    }else {
+                        return false;
+                    }
+                }
+            });
+            return true;
+        }
+        catch (Exception e){
+            System.out.println(String.format("Error: %s", e.getMessage()));
+            return false;
         }
     }
 

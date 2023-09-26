@@ -11,7 +11,6 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 public class SMTPage extends CommonPage{
-    private String woFilePath = "C:\\CucumberFramework\\TestData\\63023.xlsx";
     private WebDriver driver;
     @FindBy(id = "PanelID")
     private WebElement txtPanelIDPassed;
@@ -25,6 +24,8 @@ public class SMTPage extends CommonPage{
     }
 
     public void scanPanelIDFromExcel()throws Throwable{
+        String configFilePath = "C:\\CucumberFramework\\Config\\Configuration.properties";
+        String woFilePath = FileReaderManager.getInstance().getPropertyFileReader(configFilePath).getValueFromKey("WO_FILE_PATH");
         List<Object[]> dataOfWO = FileReaderManager.getInstance().getExcelReader().readDataFromExcel(woFilePath, 0, 1, 0);
         for (int rowIndex = 0; rowIndex < dataOfWO.size(); rowIndex++){
             String topPanelID = dataOfWO.get(rowIndex)[0].toString().trim();
@@ -35,6 +36,7 @@ public class SMTPage extends CommonPage{
                 setTextToElement(txtPanelIDPassed, topPanelID);
                 pressKey("Tab");
                 Thread.sleep(5000);
+                Assert.assertTrue("The browser has been suspended", waitForPageLoadComplete());
                 waitForElementVisibility(txtPassPanelLabel);
                 passPanelLabel = getTextFromElement(txtPassPanelLabel);
                 System.out.println(String.format("passPanelLabel: %s", passPanelLabel));
@@ -43,6 +45,7 @@ public class SMTPage extends CommonPage{
                 setTextToElement(txtPanelIDPassed, botPanelID);
                 pressKey("Tab");
                 Thread.sleep(5000);
+                Assert.assertTrue("The browser has been suspended", waitForPageLoadComplete());
                 waitForElementVisibility(txtPassPanelLabel);
                 passPanelLabel = getTextFromElement(txtPassPanelLabel);
                 System.out.println(String.format("passPanelLabel: %s", passPanelLabel));

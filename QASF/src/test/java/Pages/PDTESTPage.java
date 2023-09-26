@@ -11,7 +11,6 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 public class PDTESTPage extends CommonPage{
-    private String woFilePath = "C:\\CucumberFramework\\TestData\\63023.xlsx";
     private WebDriver driver;
     @FindBy(id = "serialNumberPassedText")
     private WebElement txtSNPassed;
@@ -25,6 +24,8 @@ public class PDTESTPage extends CommonPage{
         PageFactory.initElements(driver, this);
     }
     public void scanPanelIdAndSNFromExcel(int numOfBlocks)throws Throwable{
+        String configFilePath = "C:\\CucumberFramework\\Config\\Configuration.properties";
+        String woFilePath = FileReaderManager.getInstance().getPropertyFileReader(configFilePath).getValueFromKey("WO_FILE_PATH");
         List<Object[]> dataOfWO = FileReaderManager.getInstance().getExcelReader().readDataFromExcel(woFilePath, 0, 1, 0);
         int countPanelID = 0;
         for (int rowIndex = 0; rowIndex < dataOfWO.size(); rowIndex++){
@@ -50,6 +51,8 @@ public class PDTESTPage extends CommonPage{
         }
     }
     public void scanSNFromExcel() throws Throwable{
+        String configFilePath = "C:\\CucumberFramework\\Config\\Configuration.properties";
+        String woFilePath = FileReaderManager.getInstance().getPropertyFileReader(configFilePath).getValueFromKey("WO_FILE_PATH");
         List<Object[]> dataOfWO = FileReaderManager.getInstance().getExcelReader().readDataFromExcel(woFilePath, 0, 1, 0);
         for (int rowIndex = 0; rowIndex < dataOfWO.size(); rowIndex++){
             String sn = dataOfWO.get(rowIndex)[2].toString().trim();
@@ -58,6 +61,7 @@ public class PDTESTPage extends CommonPage{
                 setTextToElement(txtSNPassed, sn);
                 pressKey("Tab");
                 Thread.sleep(5000);
+                Assert.assertTrue("The browser has been suspended", waitForPageLoadComplete());
                 waitForElementVisibility(txtPassedSNLabel);
                 String passSNLabel = getTextFromElement(txtPassedSNLabel);
                 Assert.assertTrue("The returned SN is different with inputted SN",passSNLabel.equalsIgnoreCase(sn));
