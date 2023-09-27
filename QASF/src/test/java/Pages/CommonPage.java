@@ -15,18 +15,18 @@ public class CommonPage extends KeywordWebUI {
         this.driver = driver;
     }
     public void selectTab(String tab) throws Throwable{
-        String tabXpath = String.format("//a[@href='/vtShopFloor/%s']", tab);
+        String tabXpath = String.format("//a[@href='/vtshopfloor/%s']", tab);
         Thread.sleep(5000);
         WebElement tabElement = driver.findElement(By.xpath(tabXpath));
         clickToElement(tabElement);
     }
     public void clickToButton(String buttonLabel, String stage){
-        String btnXpath = String.format("//a[@href='/vtShopFloor/%s%s']", stage, buttonLabel);
+        String btnXpath = String.format("//a[@href='/vtshopfloor/%s%s']", stage, buttonLabel);
         WebElement btnElement = driver.findElement(By.xpath(btnXpath));
         clickToElement(btnElement);
     }
     public void scrollToElement(String tab){
-        String tabXpath = String.format("//a[@href='/vtShopFloor/%s']", tab);
+        String tabXpath = String.format("//a[@href='/vtshopfloor/%s']", tab);
         WebElement tabElement = driver.findElement(By.xpath(tabXpath));
         scrollToElement(tabElement);
     }

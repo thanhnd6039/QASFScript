@@ -18,6 +18,8 @@ public class PDTESTPage extends CommonPage{
     private WebElement txtPanelID;
     @FindBy(id = "passSerialNumberLabel")
     private WebElement txtPassedSNLabel;
+    @FindBy(id = "passPanelLabel")
+    private WebElement txtPassedPanelLabel;
     public PDTESTPage(WebDriver driver){
         super(driver);
         this.driver = driver;
@@ -35,7 +37,7 @@ public class PDTESTPage extends CommonPage{
                 System.out.println(String.format("Top: %s", topPanelID));
                 setTextToElement(txtPanelID, topPanelID);
                 pressKey("Tab");
-                Thread.sleep(2000);
+                Thread.sleep(5000);
                 int snIndex = 2;
                 for (int rowIndexSN = rowIndex*numOfBlocks; rowIndexSN < countPanelID*numOfBlocks;rowIndexSN++){
                     String sn = dataOfWO.get(rowIndexSN)[2].toString().trim();
@@ -44,9 +46,14 @@ public class PDTESTPage extends CommonPage{
                     WebElement snElement = driver.findElement(By.xpath(snXpath));
                     setTextToElement(snElement,sn);
                     pressKey("Tab");
-                    Thread.sleep(2000);
+                    Thread.sleep(5000);
                     snIndex++;
                 }
+                Thread.sleep(10000);
+                Assert.assertTrue("Not found Mapping Passed Label", waitForElementVisibility(txtPassedPanelLabel));
+                String mappingPassedLabel = getTextFromElement(txtPassedPanelLabel);
+                String expectedMappingPassedLabel = String.format("%s and Serial Numbers are mapped successfully",topPanelID);
+                Assert.assertTrue(expectedMappingPassedLabel.equalsIgnoreCase(mappingPassedLabel));
             }
         }
     }
