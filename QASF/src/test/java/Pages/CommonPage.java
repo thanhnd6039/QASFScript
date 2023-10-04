@@ -1,7 +1,6 @@
 package Pages;
 
 import Helpers.KeywordWebUI;
-import cucumber.api.java.en.And;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
